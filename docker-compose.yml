@@ -1,0 +1,31 @@
+services:
+  pg:
+    image: postgres:16
+    platform: linux/amd64
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres_test
+    volumes:
+      - ./mnt/pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "8787:8787"
+    depends_on:
+      pg:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@pg:5432/postgres?schema=public
+    entrypoint: >
+      /bin/sh -c "
+      npx prisma migrate dev --name init;
+      npx prisma db seed.js;
+      node dist/src/index.js
+      "

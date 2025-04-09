@@ -1,14 +1,24 @@
 {
-  "name": "typescript-project",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "api",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env TZ=UTC tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "seed": "tsx src/script/seed.ts"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "dependencies": {
+    "@hono/node-server": "^1.14.0",
+    "@hono/swagger-ui": "^0.5.1",
+    "@hono/zod-openapi": "^0.16.4",
+    "@prisma/client": "^5.22.0",
+    "cross-env": "^7.0.3",
+    "hono": "^4.6.5",
+    "neverthrow": "^8.0.0"
+  },
   "devDependencies": {
+    "@types/node": "^20.11.17",
+    "prisma": "^5.22.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.6.3"
   }
 }
