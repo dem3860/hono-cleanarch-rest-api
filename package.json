@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "cross-env TZ=UTC tsx watch --env-file=.env src/index.ts",
     "build": "tsc",
-    "seed": "tsx src/script/seed.ts"
+    "seed": "tsx src/script/seed.ts",
+    "openapi": "curl localhost:8787/doc | jq > openapi.json"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
