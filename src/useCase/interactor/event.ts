@@ -58,4 +58,9 @@ export class EventInteractor implements IEventCreateUseCase {
       });
     });
   }
+  delete(eventId: string): ResultAsync<void, DBError> {
+    return this.eventRepo.findById(eventId).andThen(() => {
+      return this.eventRepo.delete(eventId);
+    });
+  }
 }

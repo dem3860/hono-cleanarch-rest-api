@@ -8,11 +8,17 @@ export const EventId = z.object({
 export type EventId = z.infer<typeof EventId>;
 
 export const EventCreateRequest = z.object({
-  name: z.string(),
-  description: z.string(),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
-  location: z.string(),
+  name: z.string().openapi({ example: "Event name" }),
+  description: z.string().openapi({ example: "Event description" }),
+  startDate: z
+    .string()
+    .datetime()
+    .openapi({ example: "2025-04-01T01:00:00.000Z" }),
+  endDate: z
+    .string()
+    .datetime()
+    .openapi({ example: "2025-04-02T01:00:00.000Z" }),
+  location: z.string().openapi({ example: "Event location" }),
 });
 export type EventCreateRequest = z.infer<typeof EventCreateRequest>;
 

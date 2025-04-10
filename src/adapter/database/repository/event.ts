@@ -70,4 +70,13 @@ export class EventRepository implements IEventRepository {
       );
     });
   }
+
+  delete(id: string): ResultAsync<void, DBError> {
+    return fromPromise(
+      prisma.event.delete({ where: { id } }),
+      (e) => new DBError("Failed to delete event")
+    ).map(() => {
+      return;
+    });
+  }
 }

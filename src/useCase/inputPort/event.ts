@@ -30,4 +30,5 @@ export interface IEventCreateUseCase {
     eventId: string,
     input: EventUpdateRequest
   ): ResultAsync<Event, DBError | ValidationError>;
+  delete(eventId: string): ResultAsync<void, DBError>;
 }

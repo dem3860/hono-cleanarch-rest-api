@@ -96,8 +96,8 @@ const updateEventRoute = createRoute({
     },
   },
   responses: {
-    201: {
-      description: "Created",
+    200: {
+      description: "Updated",
       content: {
         "application/json": {
           schema: EventResponse,
@@ -139,4 +139,55 @@ eventRouter.openapi(updateEventRoute, async (c) => {
   const event = toEventCreateResponse(result.value);
   const res = EventResponse.parse(event);
   return c.json(res, 201);
+});
+
+const deleteEventRoute = createRoute({
+  operationId: "deleteEvent",
+  tags: ["event"],
+  method: "delete",
+  path: "/{eventId}",
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
+  request: {
+    params: EventId,
+  },
+  responses: {
+    204: {
+      description: "deleted",
+    },
+    400: {
+      description: "Bad Request",
+    },
+    401: {
+      description: "Unauthorized",
+    },
+    500: {
+      description: "Internal Server Error",
+    },
+  },
+});
+
+eventRouter.openapi(deleteEventRoute, async (c) => {
+  const eventId = c.req.param("eventId");
+
+  const uc = c.get("deps").eventUseCase;
+  const result = await uc.delete(eventId);
+  if (result.isErr()) {
+    const error = result.error;
+    switch (error.name) {
+      case "DBError":
+        return c.json({ name: "DB_ERROR", message: "db error" }, 500);
+      case "ValidationError":
+        return c.json(
+          { name: "VALIDATION_ERROR", message: "validation error" },
+          400
+        );
+      default:
+        return c.json({ name: "UNKNOWN_ERROR", message: "unknown error" }, 500);
+    }
+  }
+  return c.body(null, 204);
 });
