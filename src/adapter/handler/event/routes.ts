@@ -3,9 +3,12 @@ import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import {
   EventCreateRequest,
   EventId,
+  EventListRequest,
+  EventListResponse,
   EventResponse,
   EventUpdateRequest,
-  toEventCreateResponse,
+  toEventResponse,
+  toEventListResponse,
 } from "../../schema/event.js";
 import { AppType } from "../../../type.js";
 
@@ -70,7 +73,7 @@ eventRouter.openapi(createEventRoute, async (c) => {
         return c.json({ name: "UNKNOWN_ERROR", message: "unknown error" }, 500);
     }
   }
-  const event = toEventCreateResponse(result.value);
+  const event = toEventResponse(result.value);
   const res = EventResponse.parse(event);
   return c.json(res, 201);
 });
@@ -136,7 +139,7 @@ eventRouter.openapi(updateEventRoute, async (c) => {
         return c.json({ name: "UNKNOWN_ERROR", message: "unknown error" }, 500);
     }
   }
-  const event = toEventCreateResponse(result.value);
+  const event = toEventResponse(result.value);
   const res = EventResponse.parse(event);
   return c.json(res, 201);
 });
@@ -190,4 +193,64 @@ eventRouter.openapi(deleteEventRoute, async (c) => {
     }
   }
   return c.body(null, 204);
+});
+
+const listEventRoute = createRoute({
+  operationId: "listEvent",
+  tags: ["event"],
+  method: "get",
+  path: "/",
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
+  request: {
+    query: EventListRequest,
+  },
+  responses: {
+    200: {
+      description: "Get",
+      content: {
+        "application/json": {
+          schema: EventListResponse,
+        },
+      },
+    },
+    400: {
+      description: "Bad Request",
+    },
+    401: {
+      description: "Unauthorized",
+    },
+    500: {
+      description: "Internal Server Error",
+    },
+  },
+});
+
+eventRouter.openapi(listEventRoute, async (c) => {
+  const input = c.req.valid("query");
+
+  const uc = c.get("deps").eventUseCase;
+  const result = await uc.list(input);
+  console.log("result", result);
+  if (result.isErr()) {
+    const error = result.error;
+    switch (error.name) {
+      case "DBError":
+        return c.json({ name: "DB_ERROR", message: "db error" }, 500);
+      case "ValidationError":
+        return c.json(
+          { name: "VALIDATION_ERROR", message: "validation error" },
+          400
+        );
+      default:
+        return c.json({ name: "UNKNOWN_ERROR", message: "unknown error" }, 500);
+    }
+  }
+
+  const event = toEventListResponse(result.value);
+  const res = EventListResponse.parse(event);
+  return c.json(res, 201);
 });

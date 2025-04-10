@@ -3,7 +3,7 @@ import { ResultAsync, fromPromise } from "neverthrow";
 import { PrismaClient } from "@prisma/client";
 import { DBError } from "../../../domain/entity/error.js";
 import { IEventRepository } from "../../../useCase/outputPort/event.js";
-import { Event } from "../../../domain/entity/event.js";
+import { Event, EventList, EventSearch } from "../../../domain/entity/event.js";
 
 const prisma = new PrismaClient();
 
@@ -77,6 +77,49 @@ export class EventRepository implements IEventRepository {
       (e) => new DBError("Failed to delete event")
     ).map(() => {
       return;
+    });
+  }
+  list(input: EventSearch): ResultAsync<EventList, DBError> {
+    return fromPromise(
+      prisma.event.findMany({
+        where: {
+          name: {
+            contains: input.q,
+            mode: "insensitive",
+          },
+          startDate: {
+            gte: input.startDate,
+            lte: input.endDate,
+          },
+        },
+        orderBy: {
+          [input.orderBy || "startDate"]: input.order || "asc",
+        },
+        skip: (input.page || 0) * (input.limit || 10),
+        take: input.limit || 10,
+      }),
+      (e) => new DBError("Failed to list events")
+    ).andThen((events) => {
+      return fromPromise(
+        prisma.event.count({
+          where: {
+            name: {
+              contains: input.q,
+              mode: "insensitive",
+            },
+            startDate: {
+              gte: input.startDate,
+              lte: input.endDate,
+            },
+          },
+        }),
+        () => new DBError("Failed to count events")
+      ).map((total) => {
+        return {
+          events,
+          total,
+        };
+      });
     });
   }
 }

@@ -1,7 +1,8 @@
 import { ResultAsync, errAsync } from "neverthrow";
-import { Event } from "../../domain/entity/event.js";
+import { Event, EventList } from "../../domain/entity/event.js";
 import {
   EventCreateRequest,
+  EventListRequest,
   EventUpdateRequest,
   IEventCreateUseCase,
 } from "../inputPort/event.js";
@@ -62,5 +63,14 @@ export class EventInteractor implements IEventCreateUseCase {
     return this.eventRepo.findById(eventId).andThen(() => {
       return this.eventRepo.delete(eventId);
     });
+  }
+
+  list(input: EventListRequest): ResultAsync<EventList, DBError> {
+    const transformedInput = {
+      ...input,
+      startDate: input.startDate ? new Date(input.startDate) : undefined,
+      endDate: input.endDate ? new Date(input.endDate) : undefined,
+    };
+    return this.eventRepo.list(transformedInput);
   }
 }
