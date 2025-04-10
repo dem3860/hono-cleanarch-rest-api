@@ -1,6 +1,6 @@
 import { Result, err, ok } from "neverthrow";
-import { ValidationError } from "../entity/error";
-import { Event } from "../entity/event";
+import { ValidationError } from "../entity/error.js";
+import { Event } from "../entity/event.js";
 import { randomUUID } from "crypto";
 
 export interface EventArgs {
@@ -23,7 +23,7 @@ export const NewEvent = (input: EventArgs): Result<Event, ValidationError> => {
     return err(new ValidationError("startDate must be before endDate"));
   }
 
-  const id = randomUUID(); // idを生成する
+  const id = randomUUID();
   const parsed = Event.safeParse({
     id: id,
     name: input.name,

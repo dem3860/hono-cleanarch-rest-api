@@ -4,9 +4,8 @@ import {
   EventCreateRequest,
   EventCreateResponse,
   toEventCreateResponse,
-} from "../../schema/event";
-import { IEventCreateUseCase } from "../../../useCase/inputPort/event";
-import { AppType } from "../../../type";
+} from "../../schema/event.js";
+import { AppType } from "../../../type.js";
 
 export const eventRouter = new OpenAPIHono<AppType>();
 

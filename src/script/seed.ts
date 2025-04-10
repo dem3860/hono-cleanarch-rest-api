@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-const addUsers = async () => {
+const addEvent = async () => {
   const prisma = new PrismaClient();
   await prisma.event.create({
     data: {
@@ -15,7 +15,7 @@ const addUsers = async () => {
 };
 
 const main = async () => {
-  await addUsers();
+  await addEvent();
 };
 
 main();

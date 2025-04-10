@@ -1,10 +1,10 @@
 // adapter/handler/router.ts
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
-import { eventRouter } from "./event/routes";
-import { AppType } from "../../type";
-import { EventInteractor } from "../../useCase/interactor/event";
-import { EventRepository } from "../database/repository/event";
+import { eventRouter } from "./event/routes.js";
+import { AppType } from "../../type.js";
+import { EventInteractor } from "../../useCase/interactor/event.js";
+import { EventRepository } from "../database/repository/event.js";
 
 const app = new OpenAPIHono<AppType>();
 

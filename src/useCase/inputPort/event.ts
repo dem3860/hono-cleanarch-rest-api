@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Event } from "../../domain/entity/event";
+import { Event } from "../../domain/entity/event.js";
 import { ResultAsync } from "neverthrow";
-import { ValidationError } from "../../domain/entity/error";
+import { ValidationError } from "../../domain/entity/error.js";
 
 export const EventCreateRequest = z.object({
   id: z.string().optional(),

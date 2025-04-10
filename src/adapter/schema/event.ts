@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Event } from "../../domain/entity/event";
+import { Event } from "../../domain/entity/event.js";
 
 export const EventCreateRequest = z.object({
   name: z.string(),

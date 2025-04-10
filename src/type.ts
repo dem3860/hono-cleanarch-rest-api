@@ -1,4 +1,4 @@
-import { IEventCreateUseCase } from "./useCase/inputPort/event";
+import { IEventCreateUseCase } from "./useCase/inputPort/event.js";
 
 export type Deps = {
   eventUseCase: IEventCreateUseCase;

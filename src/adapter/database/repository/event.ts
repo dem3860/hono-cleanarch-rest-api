@@ -1,9 +1,9 @@
 // adapter/repository/event.ts
 import { ResultAsync, fromPromise } from "neverthrow";
 import { PrismaClient } from "@prisma/client";
-import { DBError } from "../../../domain/entity/error";
-import { IEventRepository } from "../../../useCase/outputPort/event";
-import { Event } from "../../../domain/entity/event";
+import { DBError } from "../../../domain/entity/error.js";
+import { IEventRepository } from "../../../useCase/outputPort/event.js";
+import { Event } from "../../../domain/entity/event.js";
 
 const prisma = new PrismaClient();
 

@@ -1,6 +1,6 @@
 // index.ts
 import { serve } from "@hono/node-server";
-import { app } from "./adapter/handler/router";
+import { app } from "./adapter/handler/router.js";
 
 const port = Number(process.env.PORT || 8787);
 

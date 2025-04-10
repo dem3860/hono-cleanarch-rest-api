@@ -1,9 +1,9 @@
 import { ResultAsync, fromPromise, errAsync, okAsync } from "neverthrow";
-import { Event } from "../../domain/entity/event";
-import { EventCreateRequest, IEventCreateUseCase } from "../inputPort/event";
-import { IEventRepository } from "../outputPort/event";
-import { NewEvent } from "../../domain/constructor/event";
-import { DBError, ValidationError } from "../../domain/entity/error";
+import { Event } from "../../domain/entity/event.js";
+import { EventCreateRequest, IEventCreateUseCase } from "../inputPort/event.js";
+import { IEventRepository } from "../outputPort/event.js";
+import { NewEvent } from "../../domain/constructor/event.js";
+import { DBError, ValidationError } from "../../domain/entity/error.js";
 
 export class EventInteractor implements IEventCreateUseCase {
   constructor(private readonly eventRepo: IEventRepository) {}
