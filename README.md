@@ -35,6 +35,16 @@ docker compose up
 npm run seed
 ```
 
+### DB の中を見る
+
+DB の中を見るには prisma studio を開きます。
+
+以下を実行してください :
+
+```bash
+npx prisma studio
+```
+
 ---
 
 ### ディレクトリ構成

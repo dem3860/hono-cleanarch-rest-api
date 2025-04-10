@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Event { 
-  id   String   @id @default(uuid())
+  id   String   @id
   name String
   description String
   startDate DateTime
