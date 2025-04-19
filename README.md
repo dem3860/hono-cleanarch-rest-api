@@ -92,7 +92,16 @@ src/
 
 ---
 
+### クリーンアーキテクチャについて
+
+本プロジェクトでの実装で用いたクリーンアーキテクチャについて、記事を公開しているのでそちらもぜひ参考にしていただけると嬉しいです。
+
+https://zenn.dev/dem3860/articles/b61742b6beb1e9
+
+---
+
 ### 参考資料
 
 - https://hono.dev/examples/zod-openapi
 - https://zenn.dev/praha/articles/d1d6462a27e37e
+
